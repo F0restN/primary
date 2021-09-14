@@ -1,15 +1,21 @@
+import javax.xml.crypto.Data;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
 public class all3ElementSubsets {
 
     public static void main(String[] args) {
-        System.out.println("=====CaseOne: {1,2,3,4}=====");
-        getAllSubsets(new int[]{1, 2, 3, 4});
-        System.out.println("=====CaseTwo: {7,3}=====");
-        getAllSubsets(new int[]{7,3});
-        System.out.println("=====CaseThree: {4, 1, 7, 4, 3, 9, 1, 5}=====");
-        getAllSubsets(new int[]{4, 1, 7, 4, 3, 9, 1, 5});
+//        System.out.println("=====CaseOne: {1,2,3,4}=====");
+//        getAllSubsets(new int[]{1, 2, 3, 4,5});
+//        System.out.println("=====CaseTwo: {7,3}=====");
+//        getAllSubsets(new int[]{7,3});
+//        System.out.println("=====CaseThree: {4, 1, 7, 4, 3, 9, 1, 5}=====");
+//        getAllSubsets(new int[]{4, 1, 7, 4, 3, 9, 1, 5});
+
+        int[] data = new int[3];
+        getAllSubsetsRecu(new int[]{1,2,3,4,5},0,0, data);
     }
 
     public static void getAllSubsets(int[] s){
@@ -31,4 +37,19 @@ public class all3ElementSubsets {
             System.out.println("No subset");
         }
     }
+
+    public static void getAllSubsetsRecu(int[] inputArr, int currIndex, int i, int[] data){
+        if (currIndex == 3){
+            System.out.println(Arrays.toString(data));
+            return;
+        }
+
+        if(i>=inputArr.length){
+            return;
+        }
+        data[currIndex] = inputArr[i];
+        getAllSubsetsRecu(inputArr, currIndex+1, i+1, data);
+        getAllSubsetsRecu(inputArr, currIndex, i+1, data);
+    }
+
 }
