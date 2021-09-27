@@ -1,4 +1,5 @@
 import java.lang.reflect.Array;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -62,19 +63,50 @@ public class project1 {
         };
     }
 
-    static void alaCart(int a,int b){
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        int min = Math.min(a,b);
-        int max = Math.max(a,b);
-        int sum = 0;
-        while (min >= 1){
-            if (min % 2 != 0){
-                sum = sum + max * 2;
-            }
-            min = min / 2;
+    static void alaCart(BigInteger a, BigInteger b){
+        BigInteger absA = a.abs();
+        BigInteger absB = b.abs();
+
+        BigInteger min;
+        BigInteger max;
+
+        int result = absA.compareTo(absB);
+        if (result == 1){
+            min = absB;
+            max = absA;
+        } else {
+            min = absA;
+            max = absB;
         }
+
+        BigInteger sum = new BigInteger("0");
+        boolean flag = false;
+        int e = min.compareTo(new BigInteger("1"));
+        //Ala Carte
+        int sig;
+        while (min.compareTo(new BigInteger("1")) >= 0) {
+            if (min.mod(new BigInteger("2")).compareTo(new BigInteger("0")) != 0){
+                sum = sum.add(max);
+            }
+            min = min.divide(new BigInteger("2"));
+            max = max.multiply(new BigInteger("2"));
+        }
+
+        // Determine if its negative or positive
+        int sig1 = a.signum();
+        int sig2 = b.signum();
+        if (sig1 + sig2 == 0){
+            sum = sum.multiply(new BigInteger("-1"));
+        }
+
+        System.out.println(sum);
+        return;
     }
 
+    static void rectangularMulti(String a, String b){
+
+
+    }
 
     public static void main(String[] args) {
         // Array A = [0...m][m+1...n]
@@ -92,6 +124,12 @@ public class project1 {
 //        a = new int[]{1, 3, 5, 5, 15, 18, 21, 5, 5, 6, 8, 10, 12, 16, 17, 17, 20, 25, 28};
 //        ques1(a,6, 18);
 
-        System.out.println(100,8);
+          alaCart(new BigInteger("7000"),new BigInteger("7294"));
+          alaCart(new BigInteger("25"), new BigInteger("5038385"));
+          alaCart(new BigInteger("-59724"), new BigInteger("783"));
+          alaCart(new BigInteger("8516"), new BigInteger("-82147953548159344"));
+          alaCart(new BigInteger("45952456856498465985"), new BigInteger("98654651986546519856"));
+          alaCart(new BigInteger("-45952456856498465985"), new BigInteger("-98654651986546519856"));
+
     }
 }
