@@ -41,7 +41,7 @@ public class project1 {
             // Situation #2: Minor array is the former one,
             int[] aux = Arrays.copyOfRange(a,0,m+1);
 
-            // minCursor = start point of minor array & majCursor == start point of major array
+            // minCursor is start point of minor array & majCursor == start point of major array
             int mainCursor = 0;
             int minCursor = 0;
             int majCursor = m+1;
