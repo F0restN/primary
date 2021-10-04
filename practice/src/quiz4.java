@@ -51,12 +51,12 @@ public class quiz4 {
         }
 
         if (count < nodes){
-            System.out.println("This graphic is NOT CONNECTED");
+            System.out.println("This graphic is NOT CONNECTED and NOT COMPLETE");
         } else {
             if (completeCount == nodes){
-                System.out.println("This graphic is COMPLETE");
+                System.out.println("This graphic is COMPLETE and CONNECTED");
             } else {
-                System.out.println("This graphic is CONNECTED");
+                System.out.println("This graphic is CONNECTED but NOT COMPLETE");
             }
         }
 
