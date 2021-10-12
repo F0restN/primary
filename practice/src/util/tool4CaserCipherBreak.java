@@ -144,5 +144,17 @@ public class tool4CaserCipherBreak {
             sega[i] = nub;
             System.out.println("I = "+i+" "+nub);
         }
+
+        // Due to the result, i likely to be 24, 23, 15
+        int[] i = new int[]{24, 23, 3, 15, 18, 25};
+        String a = new String();
+        for (int j=0;j<i.length;j++){
+            String result = new String();
+            for (String ch: cipherArr) {
+                a = cryptoMapNub2Char.get((cryptoMap.get(ch)-i[j]+26) % 26);
+                result += a;
+            }
+            System.out.println(result);
+        }
     }
 }
