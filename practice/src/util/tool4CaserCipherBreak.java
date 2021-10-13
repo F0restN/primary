@@ -146,7 +146,7 @@ public class tool4CaserCipherBreak {
         }
 
         // Due to the result, i likely to be 24, 23, 15
-        int[] i = new int[]{24, 23, 3, 15, 18, 25};
+        int[] i = new int[]{23};
         String a = new String();
         for (int j=0;j<i.length;j++){
             String result = new String();
