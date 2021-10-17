@@ -7,7 +7,7 @@ public class quiz6 {
 
     static int[][] readMatrixFromCSV(String filePath) throws IOException {
 
-        InputStream inputStream = quiz4.class.getResourceAsStream(filePath);
+        InputStream inputStream = quiz6.class.getResourceAsStream(filePath);
         BufferedReader bf = new BufferedReader(new InputStreamReader(inputStream));
 
         // Read by line and store.
