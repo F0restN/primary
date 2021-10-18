@@ -6,15 +6,13 @@ import java.util.HashMap;
 public class quiz6 {
 
     static int[][] readMatrixFromCSV(String filePath) throws IOException {
-
-        InputStream inputStream = quiz6.class.getResourceAsStream(filePath);
-        BufferedReader bf = new BufferedReader(new InputStreamReader(inputStream));
+        BufferedReader bf = new BufferedReader(new FileReader(filePath));
 
         // Read by line and store.
         bf.readLine();
         String line = new String();
         String str = new String();
-        while((line = bf.readLine()) != null) {
+        while ((line = bf.readLine()) != null) {
             str += line + "/";
         }
         String[] numbers = str.split("/");
@@ -23,9 +21,9 @@ public class quiz6 {
         int scope = numbers.length;
         int[][] matrix = new int[scope][scope];
         String[] stmp = null;
-        for(int i = 0; i < scope; i++) {
+        for (int i = 0; i < scope; i++) {
             stmp = numbers[i].split(",");
-            for(int j = 0; j < scope; j++) {
+            for (int j = 0; j < scope; j++) {
                 matrix[i][j] = Integer.parseInt(stmp[j]);
             }
         }
@@ -39,15 +37,9 @@ public class quiz6 {
         return matrix;
     }
 
-    static void primAlgo() throws IOException {
-        int[][] matrix = readMatrixFromCSV("lib/Quiz6_Input_File.csv");
-//        int[][] matrix = new int[][]{
-//                {0,1,3,0,0},
-//                {1,0,3,6,0},
-//                {3,3,0,4,2},
-//                {0,6,4,0,5},
-//                {0,0,2,5,0}
-//        };
+    public static void main(String args[]) throws IOException {
+        // Please replace the path below to the absolute path of yours.
+        int[][] matrix = readMatrixFromCSV("/Users/drakezhou/IdeaProjects/primary/practice/src/lib/Quiz6_Input_File.csv");
 
         int scope = matrix[0].length;
         int[] distance = new int[scope];
@@ -56,21 +48,21 @@ public class quiz6 {
         // Assign the start point as (0,0)
         int sum = 0;
         int vnear = 0;
-        for (int i = 0;i<scope;i++){
+        for (int i = 0; i < scope; i++) {
             nearest[i] = 0;
             distance[i] = matrix[0][i];
         }
 
         int count = scope;
-        while (count-1>0){
+        while (count - 1 > 0) {
             /*
              * Update the distance
              * 1. Even though we only have one loop, we can still get the distance from all the other to E
              *    that's because we only update those whose distance is lower to the vnear than the other vertex in E.
              * 2. Both 0 and itself seen as infinity big which means unreachable
              * */
-            for (int i=0;i<scope;i++){
-                if(0<matrix[i][vnear] && matrix[i][vnear]<distance[i] || distance[i] ==0 && matrix[i][vnear]>0){
+            for (int i = 0; i < scope; i++) {
+                if (0 < matrix[i][vnear] && matrix[i][vnear] < distance[i] || distance[i] == 0 && matrix[i][vnear] > 0) {
                     distance[i] = matrix[i][vnear];
                     nearest[i] = vnear;
                 }
@@ -83,23 +75,18 @@ public class quiz6 {
              * 3. use -1 as a mark to exclude vertices in E
              * */
             int min = Integer.MAX_VALUE;
-            for (int i=1;i<scope;i++){
-                if(0<distance[i] && distance[i]<min){
+            for (int i = 1; i < scope; i++) {
+                if (0 < distance[i] && distance[i] < min) {
                     min = distance[i];
                     vnear = i;
                 }
             }
             sum += distance[vnear];
-            System.out.println("From Node: "+(nearest[vnear])+" To Node: "+(vnear)+" Distance is: "+ distance[vnear]);
+            System.out.println("From Node: " + (nearest[vnear]) + " To Node: " + (vnear) + " Distance is: " + distance[vnear]);
 
             distance[vnear] = -1;
-            count --;
+            count--;
         }
-        System.out.println("The minimum-spinning tree is: "+sum+" feet");
-    }
-
-    public static void main (String args[]) throws IOException {
-
-        primAlgo();
+        System.out.println("The minimum-spinning tree is: " + sum + " feet");
     }
 }
