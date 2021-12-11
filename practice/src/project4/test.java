@@ -57,6 +57,8 @@ public class test {
                 }
                 bound += min;
             }
+        } else {
+            bound = 21;
         }
 
         System.out.println(bound);
@@ -67,6 +69,7 @@ public class test {
         // returns the length of the tour u.path
         ArrayList<Integer> path = new ArrayList<Integer>(node.path);
 
+        // Calculate to exist vertex path.
         int length = 0;
         for (int i = 0; i < path.size() - 1; i++) {
             int a = path.get(i);
@@ -74,16 +77,21 @@ public class test {
             length += matrix[a][b];
         }
 
-        int nodeNumber = path.get(path.size() - 1);
-        int min = Integer.MAX_VALUE;
-        int[] nodeArr = matrix[nodeNumber];
-        for (int i : nodeArr) {
-            if (i < min && !path.contains(i)) {
-                min = i;
-            }
-        }
-        System.out.println();
-        return min;
+        // Calculate to last vertex and return
+
+//        int lastVertex = path.get(path.size() - 1);
+//        ArrayList<Integer> leftVertics = new ArrayList<>();
+//        for (int i = 0; i < matrix.length; i++) {
+//            leftVertics.add(i);
+//        }
+//        leftVertics.removeAll(path);
+//        for (Integer vertex : leftVertics) {
+//            length += matrix[lastVertex][vertex];
+//            length += matrix[vertex][0];
+//        }
+
+//        System.out.println(length);
+        return length;
     }
 
     public static void main(String[] args) {
@@ -96,13 +104,14 @@ public class test {
         };
         ArrayList<Integer> list = new ArrayList<>();
         list.add(0);
+//        list.add(1);
         list.add(2);
-        list.add(1);
-        list.add(3);
+//        list.add(3);
+//        list.add(4);
         problem2.node node = new problem2.node();
         node.level = 0;
         node.path = list;
-        lengthCompute(matrix, node);
-//        boundCompute(matrix, node);
+//        lengthCompute(matrix, node);
+        boundCompute(matrix, node);
     }
 }

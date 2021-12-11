@@ -1,12 +1,9 @@
 package project4;
-
-import sun.security.util.Length;
-
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.*;
 
-import static jdk.nashorn.internal.objects.ArrayBufferView.length;
+import static project4.utils.readCSV.getSizeOfCSV;
+import static project4.utils.readCSV.importCSVToMatrix;
 
 public class problem2 {
 
@@ -22,6 +19,11 @@ public class problem2 {
             this.level = level;
             this.bound = bound;
             this.path = path;
+        }
+
+        @Override
+        public String toString() {
+            return "Path = "+path;
         }
 
         @Override
@@ -47,24 +49,25 @@ public class problem2 {
 
     static int lengthCompute(int[][] matrix, node node) {
         // returns the length of the tour u.path
-        ArrayList<Integer> list = new ArrayList<Integer>(node.path);
-        int nodeNumber = list.get(list.size() - 1);
-        int min = Integer.MAX_VALUE;
-        int[] nodeArr = matrix[nodeNumber];
-        for (int i : nodeArr) {
-            if (i < min && !list.contains(i)) {
-                min = i;
-            }
+        ArrayList<Integer> path = new ArrayList<Integer>(node.path);
+
+        // Calculate to exist vertex path.
+        int length = 0;
+        for (int i = 0; i < path.size() - 1; i++) {
+            int a = path.get(i);
+            int b = path.get(i + 1);
+            length += matrix[a][b];
         }
-        return min;
+//        System.out.println(length);
+        return length;
     }
 
-    static int boundCompute(int[][] matrix, problem2.node node) {
+    static int boundCompute(int[][] matrix, node node) {
         int bound = 0;
         ArrayList<Integer> path = new ArrayList<>(node.path);
         HashMap<Integer, int[]> map = new HashMap<>();
-        for (int i = 0; i < Arrays.asList(matrix).size(); i++) {
-            map.put(i, Arrays.asList(matrix).get(i));
+        for (int i = 0; i < matrix.length; i++) {
+            map.put(i, matrix[i].clone());
         }
 
         if (path.size() > 1) {
@@ -109,19 +112,20 @@ public class problem2 {
                 }
                 bound += min;
             }
+        } else {
+            bound = 21;
         }
 
-        System.out.println(bound);
+//        System.out.println(bound);
         return bound;
     }
 
-    static void TSP(int n, int[][] matrix, ArrayList opttour) throws CloneNotSupportedException {
-
+    static ArrayList<Integer> TSP(int n, int[][] matrix, ArrayList<Integer> opttour) throws CloneNotSupportedException {
         // initialize
         PriorityQueue<node> pq = new PriorityQueue<>(n, new Comparator<node>() {
             @Override
             public int compare(node o1, node o2) {
-                return -(o1.bound - o2.bound);
+                return (o1.bound - o2.bound);
             }
         });
 
@@ -139,7 +143,7 @@ public class problem2 {
             v = pq.poll();
 
             if (v.bound < minLength) {
-                v.level = v.level + 1;
+                u.level = v.level + 1;
                 for (int i = 1; i < n; i++) {
                     if (!v.path.contains(i)) {
                         u.path = (ArrayList<Integer>) v.path.clone();
@@ -147,28 +151,44 @@ public class problem2 {
 
                         if (u.level == n - 2) {
                             u.path.add(findLeftOne(matrix, u.path));
-                            u.path.add(1);
+                            u.path.add(0);
 
                             if (lengthCompute(matrix, u) < minLength) {
                                 minLength = lengthCompute(matrix, u);
-                                opttour = (ArrayList) u.path.clone();
+                                opttour = u.path;
                             }
 
                         } else {
-                            u.bound = boundCompute(matrix, u);
+                            u.bound = boundCompute(matrix, u.clone());
                             if (u.bound < minLength) {
-                                pq.add(u);
+                                pq.add(u.clone());
                             }
                         }
 
                     }
-
-
                 }
             }
+
         }
+
+
+        return opttour;
     }
 
+    public static void main(String[] args) throws Exception {
+        // Initial
+        String filePath = "/Users/drakezhou/IdeaProjects/primary/practice/src/project4/inputFiles/Project 4_Problem 2_InputData.csv";
+        int matrixSize = getSizeOfCSV(filePath);
+        int[][] matrix = importCSVToMatrix(matrixSize, filePath);
+
+        // Main function
+        ArrayList<Integer> opttour = new ArrayList<>();
+        opttour = TSP(matrixSize, matrix, opttour);
+
+        // Output
+        System.out.println("Path = "+opttour);
+        System.out.println("Length = "+lengthCompute(matrix, new node(0,0, opttour)));
+    }
 
 }
 
