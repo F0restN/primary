@@ -2,10 +2,11 @@ package project4;
 import java.io.Serializable;
 import java.util.*;
 
+import static project4.utils.convert.convertMatrixToList;
 import static project4.utils.readCSV.getSizeOfCSV;
 import static project4.utils.readCSV.importCSVToMatrix;
 
-public class problem2 {
+public class problem2BnBOneDArray {
 
     static class node implements Serializable, Cloneable {
         int level;
@@ -37,9 +38,19 @@ public class problem2 {
         }
     }
 
-    static int findLeftOne(int[][] matrix, ArrayList list) {
+    static int getValue(int[] matrixList, int i, int j) {
+        try {
+            int a = Math.max(i, j);
+            int b = Math.min(i, j);
+            return matrixList[(a * (a - 1) / 2) + b];
+        } catch (Exception e){
+            return 0;
+        }
+    }
+
+    static int findLeftOne(int[] matrixList, int n, ArrayList list) {
         int leftOne = 0;
-        for (int i = 1; i < matrix.length; i++) {
+        for (int i = 1; i < n; i++) {
             if (!list.contains(i)) {
                 leftOne = i;
             }
@@ -47,7 +58,7 @@ public class problem2 {
         return leftOne;
     }
 
-    static int lengthCompute(int[][] matrix, node node) {
+    static int lengthCompute(int[] matrixList, node node) {
         // returns the length of the tour u.path
         ArrayList<Integer> path = new ArrayList<Integer>(node.path);
 
@@ -56,18 +67,23 @@ public class problem2 {
         for (int i = 0; i < path.size() - 1; i++) {
             int a = path.get(i);
             int b = path.get(i + 1);
-            length += matrix[a][b];
+            length += getValue(matrixList, a, b);
         }
 //        System.out.println(length);
         return length;
     }
 
-    static int boundCompute(int[][] matrix, node node) {
+    static int boundCompute(int[] matrixList, int n, node node) {
         int bound = 0;
         ArrayList<Integer> path = new ArrayList<>(node.path);
         HashMap<Integer, int[]> map = new HashMap<>();
-        for (int i = 0; i < matrix.length; i++) {
-            map.put(i, matrix[i].clone());
+
+        for (int i = 0; i < n; i++) {
+            int[] arr = new int[n];
+            for (int j = 0; j < n; j++) {
+                arr[j] = getValue(matrixList, i, j);
+            }
+            map.put(i, arr);
         }
 
         if (path.size() > 1) {
@@ -75,7 +91,7 @@ public class problem2 {
             for (int i = 0; i < path.size() - 1; i++) {
                 int a = path.get(i);
                 int b = path.get(i + 1);
-                bound += matrix[a][b];
+                bound += getValue(matrixList, a, b);
             }
 
             // Remove them from the list so that we can compute the minimum cost left nodes
@@ -91,7 +107,7 @@ public class problem2 {
             }
             // 2. for the rest non-visited vertices, do not include last visited vertex.
             ArrayList<Integer> leftVertics = new ArrayList<>();
-            for (int i = 0; i < matrix.length; i++) {
+            for (int i = 0; i < n; i++) {
                 leftVertics.add(i);
             }
             leftVertics.removeAll(path);
@@ -120,7 +136,7 @@ public class problem2 {
         return bound;
     }
 
-    static ArrayList<Integer> TSP(int n, int[][] matrix, ArrayList<Integer> opttour) throws CloneNotSupportedException {
+    static ArrayList<Integer> TSP(int n, int[] matrixList, ArrayList<Integer> opttour) throws CloneNotSupportedException {
         // initialize
         PriorityQueue<node> pq = new PriorityQueue<>(n, new Comparator<node>() {
             @Override
@@ -135,7 +151,7 @@ public class problem2 {
         node u = new node();
         v.level = 0;
         v.path = list;
-        v.bound = boundCompute(matrix, v);
+        v.bound = boundCompute(matrixList, n, v);
         int minLength = Integer.MAX_VALUE;
         pq.add(v.clone());
 
@@ -150,16 +166,16 @@ public class problem2 {
                         u.path.add(i);
 
                         if (u.level == n - 2) {
-                            u.path.add(findLeftOne(matrix, u.path));
+                            u.path.add(findLeftOne(matrixList, n, u.path));
                             u.path.add(0);
 
-                            if (lengthCompute(matrix, u) < minLength) {
-                                minLength = lengthCompute(matrix, u);
+                            if (lengthCompute(matrixList, u) < minLength) {
+                                minLength = lengthCompute(matrixList, u);
                                 opttour = u.path;
                             }
 
                         } else {
-                            u.bound = boundCompute(matrix, u.clone());
+                            u.bound = boundCompute(matrixList, n, u.clone());
                             if (u.bound < minLength) {
                                 pq.add(u.clone());
                             }
@@ -181,13 +197,16 @@ public class problem2 {
         int matrixSize = getSizeOfCSV(filePath);
         int[][] matrix = importCSVToMatrix(matrixSize, filePath);
 
+        int[] matrixList = convertMatrixToList(matrix);
+
         // Main function
         ArrayList<Integer> opttour = new ArrayList<>();
-        opttour = TSP(matrixSize, matrix, opttour);
+        opttour = TSP(matrix.length, matrixList, opttour);
 
         // Output
+        System.out.println("BnB for TSP 1D-Array : ");
         System.out.println("Path = "+opttour);
-        System.out.println("Length = "+lengthCompute(matrix, new node(0,0, opttour)));
+        System.out.println("Length = "+lengthCompute(matrixList, new node(0,0, opttour)));
     }
 
 }

@@ -10,7 +10,7 @@ import static project4.utils.convert.convertArrayListToArr;
 import static project4.utils.readCSV.getSizeOfCSV;
 import static project4.utils.readCSV.importCSVToMatrix;
 
-public class testTSPDP {
+public class DPTSPFromTextbook {
 
     static class distanceObj {
         int p1;
@@ -60,7 +60,7 @@ public class testTSPDP {
         return copy;
     }
 
-    public static void findSubsets(List<List<Integer>> subset, ArrayList<Integer> nums, ArrayList<Integer> output, int index) {
+    public static void findSubsets(LinkedList<List<Integer>> subset, ArrayList<Integer> nums, List<Integer> output, int index) {
         if (index == nums.size()) {
             subset.add(output);
             return;
@@ -87,8 +87,8 @@ public class testTSPDP {
             distance.put(new distanceObj(i, new int[]{0}), matrix[i][0]);
         }
 
-        List<List<Integer>> subset = new ArrayList<>();
-        findSubsets(subset, convertArrToArrayList(removeArrElement(vertices, new int[]{0})), new ArrayList<>(), 0);
+        LinkedList<List<Integer>> subset = new LinkedList<>();
+        findSubsets(subset, convertArrToArrayList(removeArrElement(vertices, new int[]{0})), new LinkedList<>(), 0);
 
         HashMap<Integer, ArrayList<List<Integer>>> subsetCollection = new HashMap<>();
         for (int i = 0; i <= n; i++) {
@@ -100,7 +100,10 @@ public class testTSPDP {
 
         for (int k = 1; k <= n - 2; k++) {
             System.out.println(k);
-            for (List<Integer> list : subsetCollection.get(k)) {
+            ArrayList<List<Integer>> lists = subsetCollection.get(k);
+
+            for (int m = 0; m < lists.size(); m++) {
+                List<Integer> list = lists.get(m);
                 int[] a = convertArrayListToArr(list);
                 int[] iterateArr = removeArrElement(vertices, a);
 
@@ -122,8 +125,8 @@ public class testTSPDP {
                     opttour.put(new distanceObj(i, a), minJ);
                     o2.put(i, minJ);
                 }
-
             }
+
 
         }
 
@@ -158,10 +161,10 @@ public class testTSPDP {
     }
 
     public static void main(String[] args) throws Exception {
-        String filePath = "/Users/drakezhou/IdeaProjects/primary/practice/src/project4/inputFiles/Project 4_Problem 2_InputData.csv";
+//        String filePath = "/Users/drakezhou/IdeaProjects/primary/practice/src/project4/inputFiles/Project 4_Problem 2_InputData.csv";
 //        int matrixSize = getSizeOfCSV(filePath);
 //        int[][] matrix = importCSVToMatrix(matrixSize, filePath);
-
+//
         int[][] matrix = new int[][]{
                 {0, 14, 4, 10, 20},
                 {14, 0, 7, 8, 7},

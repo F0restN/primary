@@ -21,4 +21,18 @@ public class convert {
 
         return convert;
     }
+
+    public static int[] convertMatrixToList (int[][] matrix) {
+
+        int scope = matrix[0].length;
+
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 1; i < scope; i++) {
+            for (int j = 0; j <= i - 1; j++) {
+                list.add(matrix[i][j]);
+            }
+        }
+
+        return convertArrayListToArr(list);
+    }
 }

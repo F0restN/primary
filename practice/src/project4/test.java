@@ -2,12 +2,11 @@ package project4;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 
 public class test {
 
-    static int boundCompute(int[][] matrix, problem2.node node) {
+    static int boundCompute(int[][] matrix, problem2BnB.node node) {
         int bound = 0;
         ArrayList<Integer> path = new ArrayList<>(node.path);
         HashMap<Integer, int[]> map = new HashMap<>();
@@ -65,7 +64,7 @@ public class test {
         return bound;
     }
 
-    static int lengthCompute(int[][] matrix, problem2.node node) {
+    static int lengthCompute(int[][] matrix, problem2BnB.node node) {
         // returns the length of the tour u.path
         ArrayList<Integer> path = new ArrayList<Integer>(node.path);
 
@@ -108,7 +107,7 @@ public class test {
         list.add(2);
 //        list.add(3);
 //        list.add(4);
-        problem2.node node = new problem2.node();
+        problem2BnB.node node = new problem2BnB.node();
         node.level = 0;
         node.path = list;
 //        lengthCompute(matrix, node);
