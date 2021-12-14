@@ -1,6 +1,9 @@
 package project4.utils;
 
+import project4.problem3;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class convert {
@@ -35,4 +38,15 @@ public class convert {
 
         return convertArrayListToArr(list);
     }
+
+//    static ArrayList<problem3.node> deepClone(ArrayList<problem3.node> origin) throws CloneNotSupportedException {
+//        ArrayList<problem3.node> copy = new ArrayList<>();
+//
+//        Iterator<problem3.node> iterator = origin.iterator();
+//        while(iterator.hasNext()){
+//            copy.add((problem3.node) iterator.next().clone());
+//        }
+//
+//        return copy;
+//    }
 }
