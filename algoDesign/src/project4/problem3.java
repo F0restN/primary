@@ -111,6 +111,7 @@ public class problem3 {
 
     static int setNextQueen(int n, int level, int count, ArrayList<node> queen) throws CloneNotSupportedException {
         if (level >= n) {
+//            System.out.println(queen);
             count++;
             return count;
         }
