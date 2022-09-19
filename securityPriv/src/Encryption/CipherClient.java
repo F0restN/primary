@@ -16,7 +16,6 @@ public class CipherClient {
 		return encoder.encode(encryptedMessage);
 	}
 
-
 	public static void main(String[] args) throws Exception {
 		String message = "The quick brown fox jumps over the lazy dog.";
 		String host = "127.0.0.1";
