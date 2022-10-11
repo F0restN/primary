@@ -38,7 +38,7 @@ public class imc01 {
 
     public static void main (String[] args){
         imc01 test = new imc01();
-        test.canReach(1, 1, 4, 7, 6);
+        test.canReach(1, 2, 1, 3, 5);
     }
 
 }

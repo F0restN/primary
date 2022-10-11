@@ -64,7 +64,7 @@ public class imc02 {
     }
 
     public static void main(String[] args) {
-        int[] arrival = {0,0,1,4};
+        int[] arrival = {1,1,1,4};
         int[] street = new int[]{0,1,1,0};
         System.out.println(Arrays.toString(getResult(arrival, street)));
     }
